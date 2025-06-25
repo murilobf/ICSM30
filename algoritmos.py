@@ -6,11 +6,11 @@ g = np.loadtxt('Dados/g-30x30-2.csv', delimiter=',', dtype=np.float64)
 
 #Função para cgnr
 def cgnr(g: np.array, H: np.array, iter_max: int):
-    
+    ganho_sinal(H)
     #Pra pegar a quantidade de colunas de H pra usar no f
     m, n = H.shape
 
-    #O código abaixo é uma "tradução" do cgnr dado pelo professor para código
+    #O código abaixo é uma "tradução" do cgnr d ado pelo professor para código
     f = np.zeros(n)
     r = g - np.matmul(H, f)
     z = np.matmul(H.transpose(), r)
@@ -38,6 +38,13 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
         p = p_next
 
     return f, i+1
+
+def ganho_sinal(H):
+    N,S = H.shape
+
+    for c in range(N):
+        for l in range(S):
+            H[c][l] *= 100 + (1/20)*l*np.sqrt(l)
 
 # Chama cgnr
 f,residuos = cgnr(g, H, 1000)
