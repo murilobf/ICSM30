@@ -6,6 +6,8 @@ import psutil
 import io
 from PIL import Image
 import algoritmos
+import matplotlib.pyplot as plt
+
 
 app = Flask(__name__)
 
@@ -17,23 +19,19 @@ def reconstruir():
     sinal = data['sinal']
 
     start_time = time.time()
-
-    print("testeH")
     H = np.loadtxt(modelo, delimiter=',', dtype=np.float64)
-    print("testeg")
     g = np.loadtxt(sinal, delimiter=',', dtype=np.float64)
-    print("testecgnr")
     f,iteracoes = algoritmos.cgnr(g,H,100)
     
     # Simulando geração de imagem (matriz convertida em imagem)
     lado = int(np.sqrt(len(f)))  # tentar fazer quadrada
     imagem = f[:lado*lado].reshape((lado, lado), order='F')
-
+    plt.imsave(f"Imagens/{usuario}{start_time}.png", imagem, cmap='gray')
 
     '''lado = int(np.ceil(np.sqrt(len(f))))
     imagem = np.zeros((lado, lado))
     imagem.flat[:len(f)] = f  # Preenche imagem com os dados'''
-    imagem = Image.fromarray(imagem.astype('uint8'))
+    #imagem = Image.fromarray(imagem.astype('uint8'))
 
 
     img_bytes = io.BytesIO()

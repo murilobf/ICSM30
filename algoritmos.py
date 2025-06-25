@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 """H = np.loadtxt('Dados/H-2x', delimiter=',', dtype=np.float64)
 g = np.loadtxt('Dados/g-30x30-2.csv', delimiter=',', dtype=np.float64)
@@ -25,7 +24,7 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
         error = abs(np.linalg.norm(r_next, ord=2) - np.linalg.norm(r, ord=2))
         print ('Erro no ciclo ' + str(i) + ':')
         print (error)
-        if (error < 0.00001):
+        if (error < 1e-10):
             return f_next, i+1
 
         z_next = np.matmul(np.transpose(H), r_next)
