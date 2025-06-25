@@ -14,7 +14,7 @@ def enviar_sinal():
     print("teste")
 
     # Hardcoded demais pro ideal mas como temos poucos arquivos dá pra ser assim mesmo
-    if(modelo == 'Dados/H-1'):
+    if(modelo == 'Dados/H-1.csv'):
         sinal = random.choice(SINAIS60)
     else:
         sinal = random.choice(SINAIS30)

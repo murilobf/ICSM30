@@ -26,7 +26,15 @@ def reconstruir():
     f,iteracoes = algoritmos.cgnr(g,H,100)
     
     # Simulando geração de imagem (matriz convertida em imagem)
-    imagem = Image.fromarray(f.astype('uint8'))
+    lado = int(np.sqrt(len(f)))  # tentar fazer quadrada
+    imagem = f[:lado*lado].reshape((lado, lado), order='F')
+
+
+    '''lado = int(np.ceil(np.sqrt(len(f))))
+    imagem = np.zeros((lado, lado))
+    imagem.flat[:len(f)] = f  # Preenche imagem com os dados'''
+    imagem = Image.fromarray(imagem.astype('uint8'))
+
 
     img_bytes = io.BytesIO()
     imagem.save(img_bytes, format='PNG')
