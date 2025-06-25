@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-H = np.loadtxt('Dados/H-2.csv', delimiter=',', dtype=np.float64)
+"""H = np.loadtxt('Dados/H-2x', delimiter=',', dtype=np.float64)
 g = np.loadtxt('Dados/g-30x30-2.csv', delimiter=',', dtype=np.float64)
-
+"""
 #Função para cgnr
 def cgnr(g: np.array, H: np.array, iter_max: int):
-    ganho_sinal(H)
+    #ganho_sinal(H)
     #Pra pegar a quantidade de colunas de H pra usar no f
     m, n = H.shape
 
@@ -46,7 +46,7 @@ def ganho_sinal(H):
         for l in range(S):
             H[c][l] *= 100 + (1/20)*l*np.sqrt(l)
 
-# Chama cgnr
+'''# Chama cgnr
 f,residuos = cgnr(g, H, 1000)
 
 # Transforma  f em imagem
@@ -55,3 +55,4 @@ imagem = f[:lado*lado].reshape((lado, lado), order='F')
 
 # Salvar imagem
 plt.imsave("teste.png", imagem, cmap='gray')
+'''

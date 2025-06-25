@@ -1,5 +1,5 @@
     # servidor.py
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, make_response
 import time
 import numpy as np
 import psutil
@@ -14,35 +14,32 @@ def reconstruir():
     data = request.json
     usuario = data['usuario']
     modelo = data['modelo']
-    ganho = data['ganho']
-    sinais = data['sinais']
+    sinal = data['sinal']
 
     start_time = time.time()
 
-    f,iteracoes = algoritmos.cgnr()
+    print("testeH")
+    H = np.loadtxt(modelo, delimiter=',', dtype=np.float64)
+    print("testeg")
+    g = np.loadtxt(sinal, delimiter=',', dtype=np.float64)
+    print("testecgnr")
+    f,iteracoes = algoritmos.cgnr(g,H,100)
     
     # Simulando geração de imagem (matriz convertida em imagem)
-    matriz = np.random.rand(128, 128) * 255
-    imagem = Image.fromarray(matriz.astype('uint8'))
+    imagem = Image.fromarray(f.astype('uint8'))
 
     img_bytes = io.BytesIO()
     imagem.save(img_bytes, format='PNG')
     img_bytes.seek(0)
 
-    response = {
-        'usuario': usuario,
-        'modelo': modelo,
-        'iteracoes': iteracoes,
-        'tempo': time.time() - start_time
-    }
+    tempo = time.time() - start_time
 
-    return send_file(img_bytes, mimetype='image/png',
-                     download_name='reconstruida.png',
-                     headers={
-                         'X-Usuario': usuario,
-                         'X-Iteracoes': str(iteracoes),
-                         'X-Tempo': str(response['tempo'])
-                     })
+    response = make_response(send_file(img_bytes, mimetype='image/png', download_name='reconstruida.png'))
+    response.headers['X-Usuario'] = usuario
+    response.headers['X-Iteracoes'] = str(iteracoes)
+    response.headers['X-Tempo'] = str(tempo)
+    
+    return response
 
 @app.route('/desempenho', methods=['GET'])
 def desempenho():

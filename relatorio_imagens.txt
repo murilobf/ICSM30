@@ -1,0 +1,2 @@
+img_Daniel_1750883853.png - Usuario: Daniel, Iterações: 5, Tempo: 3.7392265796661377 s
+img_Carol_1750883923.png - Usuario: Carol, Iterações: 6, Tempo: 3.5726613998413086 s

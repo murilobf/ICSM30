@@ -2,24 +2,27 @@
 import requests
 import random
 import time
-import os
-from PIL import Image
-from io import BytesIO
 
 USUARIOS = ['Alice', 'José', 'Carol', 'Daniel']
-MODELOS = ['modelo1', 'modelo2', 'modelo3']
+MODELOS = ['Dados/H-1.csv', 'Dados/H-2.csv']
+SINAIS60 = ['Dados/G-1.csv', 'Dados/G-2.csv']
+SINAIS30 = ['Dados/g-30x30-1.csv', 'Dados/g-30x30-2.csv']
 
 def enviar_sinal():
     usuario = random.choice(USUARIOS)
     modelo = random.choice(MODELOS)
-    ganho = random.uniform(0.5, 2.0)
-    sinais = [random.random() for _ in range(100)]
+    print("teste")
+
+    # Hardcoded demais pro ideal mas como temos poucos arquivos dá pra ser assim mesmo
+    if(modelo == 'Dados/H-1'):
+        sinal = random.choice(SINAIS60)
+    else:
+        sinal = random.choice(SINAIS30)
 
     payload = {
         'usuario': usuario,
         'modelo': modelo,
-        'ganho': ganho,
-        'sinais': sinais
+        'sinal': sinal
     }
 
     resp = requests.post('http://localhost:5000/reconstruir', json=payload)
@@ -29,12 +32,16 @@ def enviar_sinal():
         nome_arquivo = f"img_{usuario}_{int(time.time())}.png"
         with open(nome_arquivo, 'wb') as f:
             f.write(resp.content)
+        print("testecliente\n")
 
         iteracoes = resp.headers.get('X-Iteracoes', '0')
         tempo = resp.headers.get('X-Tempo', '0')
 
         with open('relatorio_imagens.txt', 'a') as f:
             f.write(f"{nome_arquivo} - Usuario: {usuario}, Iterações: {iteracoes}, Tempo: {tempo} s\n")
+
+    else:
+        print("Erro ao abrir")
 
 def coletar_desempenho():
     resp = requests.get('http://localhost:5000/desempenho')
