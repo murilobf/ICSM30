@@ -17,6 +17,9 @@ from flask import Flask, request, jsonify, send_file, make_response
 
 app = Flask(__name__)
 
+#Dicionario guardando os modelos já visitados
+modelos = {}
+
 @app.route('/reconstruir', methods=['POST'])
 def reconstruir():
     """
