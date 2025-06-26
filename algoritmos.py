@@ -1,13 +1,15 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-"""H = np.loadtxt('Dados/H-2x', delimiter=',', dtype=np.float64)
-g = np.loadtxt('Dados/g-30x30-2.csv', delimiter=',', dtype=np.float64)
-"""
+
+H = np.loadtxt('Dados/H-1.csv', delimiter=',', dtype=np.float64)
+g = np.loadtxt('Dados/G-1.csv', delimiter=',', dtype=np.float64)
+
 #Função para cgnr
 def cgnr(g: np.array, H: np.array, iter_max: int):
-    #ganho_sinal(H)
     #Pra pegar a quantidade de colunas de H pra usar no f
     m, n = H.shape
+    #g = (g - np.min(g)) / (np.max(g) - np.min(g))
 
     #O código abaixo é uma "tradução" do cgnr d ado pelo professor para código
     f = np.zeros(n)
@@ -22,9 +24,9 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
         r_next = r - alpha * w
 
         error = abs(np.linalg.norm(r_next, ord=2) - np.linalg.norm(r, ord=2))
-        print ('Erro no ciclo ' + str(i) + ':')
-        print (error)
-        if (error < 1e-10):
+        #print ('Erro no ciclo ' + str(i) + ':')
+        #print (error)
+        if (error < 1e-4):
             return f_next, i+1
 
         z_next = np.matmul(np.transpose(H), r_next)
@@ -52,6 +54,10 @@ f,residuos = cgnr(g, H, 1000)
 lado = int(np.sqrt(len(f)))  # tentar fazer quadrada
 imagem = f[:lado*lado].reshape((lado, lado), order='F')
 
+imagem = (imagem - np.min(imagem)) / (np.max(imagem) - np.min(imagem))
+
+#print(f)
+#print(f"min:{np.min(f)} max: {np.max(f)}")
 # Salvar imagem
 plt.imsave("teste.png", imagem, cmap='gray')
 '''

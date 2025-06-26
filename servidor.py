@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
+#Dicionario guardando os modelos já visitados
+modelos = {}
+
 @app.route('/reconstruir', methods=['POST'])
 def reconstruir():
     data = request.json
@@ -19,13 +22,24 @@ def reconstruir():
     sinal = data['sinal']
 
     start_time = time.time()
-    H = np.loadtxt(modelo, delimiter=',', dtype=np.float64)
+
+    #Lê os modelos, se ele já estiver presente no dicionário só pega ele
+    if(modelo in modelos):
+        H = modelos[modelo]
+    else:
+        H = np.loadtxt(modelo, delimiter=',', dtype=np.float64)
+        modelos[modelo] = H
+
     g = np.loadtxt(sinal, delimiter=',', dtype=np.float64)
     f,iteracoes = algoritmos.cgnr(g,H,100)
     
     # Simulando geração de imagem (matriz convertida em imagem)
     lado = int(np.sqrt(len(f)))  # tentar fazer quadrada
     imagem = f[:lado*lado].reshape((lado, lado), order='F')
+    #Normaliza a imagem
+    min = np.min(imagem)
+    max = np.max(imagem)
+    imagem = ((imagem-min)/(max-min))
     plt.imsave(f"Imagens/{usuario}{start_time}.png", imagem, cmap='gray')
 
     '''lado = int(np.ceil(np.sqrt(len(f))))

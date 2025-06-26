@@ -5,12 +5,13 @@ import time
 
 USUARIOS = ['Alice', 'José', 'Carol', 'Daniel']
 MODELOS = ['Dados/H-1.csv', 'Dados/H-2.csv']
-SINAIS60 = ['Dados/G-1.csv', 'Dados/G-2.csv']
-SINAIS30 = ['Dados/g-30x30-1.csv', 'Dados/g-30x30-2.csv']
+SINAIS60 = ['Dados/G-1.csv', 'Dados/G-2.csv', 'Dados/A-60x60-1.csv']
+SINAIS30 = ['Dados/g-30x30-1.csv    ','Dados/g-30x30-2.csv','Dados/A-30x30-1.csv']
 
 def enviar_sinal():
     usuario = random.choice(USUARIOS)
-    modelo = random.choice(MODELOS)
+    #modelo = random.choice(MODELOS)
+    modelo = MODELOS[1]
     print("teste")
 
     # Hardcoded demais pro ideal mas como temos poucos arquivos dá pra ser assim mesmo
