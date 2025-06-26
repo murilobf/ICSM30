@@ -16,6 +16,4 @@ thread_servidor.start()
 time.sleep(1)
 
 # Envia sinais
-for _ in range(5):
-    cliente.enviar_sinal()
-    time.sleep(random.uniform(1, 3))
+cliente.simula_clientes()

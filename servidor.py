@@ -7,9 +7,14 @@ import io
 from PIL import Image
 import algoritmos
 import matplotlib.pyplot as plt
+import threading
 
 
 app = Flask(__name__)
+#Semáforos para determinar o número máximo de clientes e processos de reconstrução simultâneos
+#Se passar do valor do parâmetro ele bloqueia a thread até estar liberado
+semaforo_clientes = threading.Semaphore(2)
+semaforo_procesos = threading.Semaphore(5)
 
 #Dicionario guardando os modelos já visitados
 modelos = {}
