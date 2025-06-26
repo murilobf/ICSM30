@@ -1,0 +1,21 @@
+=== RELATÓRIO DE IMAGENS RECONSTRUÍDAS ===
+Gerado em: 2025-06-26 13:47:29
+
+img_Maria_1750956737.png - Usuario: Maria, Algoritmo: cgnr, Inicio: 2025-06-26 13:52:13, Fim: 2025-06-26 13:52:17, Tamanho: 30x30, Iterações: 52, Tempo: 3.9791457653045654 s, Modelo: Dados/H-2.csv, Sinal: Dados/A-30x30-1.csv
+img_José_1750957001.png - Usuario: José, Algoritmo: cgnr, Inicio: 2025-06-26 13:56:32, Fim: 2025-06-26 13:56:41, Tamanho: 30x30, Iterações: 100, Tempo: 8.293648719787598 s, Modelo: Dados/H-2.csv, Sinal: Dados/g-30x30-2.csv
+img_Maria_1750957001.png - Usuario: Maria, Algoritmo: cgnr, Inicio: 2025-06-26 13:56:32, Fim: 2025-06-26 13:56:41, Tamanho: 30x30, Iterações: 52, Tempo: 8.37869143486023 s, Modelo: Dados/H-2.csv, Sinal: Dados/A-30x30-1.csv
+img_Eduarda_1750957006.png - Usuario: Eduarda, Algoritmo: cgnr, Inicio: 2025-06-26 13:56:41, Fim: 2025-06-26 13:56:46, Tamanho: 30x30, Iterações: 52, Tempo: 4.932674169540405 s, Modelo: Dados/H-2.csv, Sinal: Dados/A-30x30-1.csv
+img_Leonardo_1750957011.png - Usuario: Leonardo, Algoritmo: cgnr, Inicio: 2025-06-26 13:56:46, Fim: 2025-06-26 13:56:51, Tamanho: 30x30, Iterações: 100, Tempo: 4.994727373123169 s, Modelo: Dados/H-2.csv, Sinal: Dados/g-30x30-2.csv
+img_Lucas_1750957016.png - Usuario: Lucas, Algoritmo: cgnr, Inicio: 2025-06-26 13:56:51, Fim: 2025-06-26 13:56:56, Tamanho: 30x30, Iterações: 100, Tempo: 5.197976350784302 s, Modelo: Dados/H-2.csv, Sinal: Dados/g-30x30-2.csv
+img_Maria_1750957021.png - Usuario: Maria, Algoritmo: cgnr, Inicio: 2025-06-26 13:56:56, Fim: 2025-06-26 13:57:01, Tamanho: 30x30, Iterações: 100, Tempo: 5.113699674606323 s, Modelo: Dados/H-2.csv, Sinal: Dados/g-30x30-2.csv
+img_Maria_1750957025.png - Usuario: Maria, Algoritmo: cgnr, Inicio: 2025-06-26 13:57:01, Fim: 2025-06-26 13:57:05, Tamanho: 30x30, Iterações: 100, Tempo: 4.4896275997161865 s, Modelo: Dados/H-2.csv, Sinal: Dados/g-30x30-2.csv
+img_Lucas_1750957027.png - Usuario: Lucas, Algoritmo: cgnr, Inicio: 2025-06-26 13:57:05, Fim: 2025-06-26 13:57:07, Tamanho: 30x30, Iterações: 52, Tempo: 1.7409522533416748 s, Modelo: Dados/H-2.csv, Sinal: Dados/A-30x30-1.csv
+img_Lucas_1750957030.png - Usuario: Lucas, Algoritmo: cgnr, Inicio: 2025-06-26 13:57:07, Fim: 2025-06-26 13:57:10, Tamanho: 30x30, Iterações: 52, Tempo: 2.9510321617126465 s, Modelo: Dados/H-2.csv, Sinal: Dados/A-30x30-1.csv
+img_Alice_1750957425.png - Usuario: Alice, Algoritmo: cgnr, Inicio: 2025-06-26 13:56:41, Fim: 2025-06-26 14:03:45, Tamanho: 60x60, Iterações: 100, Tempo: 424.2973783016205 s, Modelo: Dados/H-1.csv, Sinal: Dados/G-2.csv
+img_Murilo_1750958066.png - Usuario: Murilo, Algoritmo: cgnr, Inicio: 2025-06-26 14:14:14, Fim: 2025-06-26 14:14:26, Tamanho: 30x30, Iterações: 96, Tempo: 11.81065320968628 s, Modelo: Dados/H-2.csv, Sinal: Dados/g-30x30-1.csv
+img_José_1750958154.png - Usuario: José, Algoritmo: cgnr, Inicio: 2025-06-26 14:14:14, Fim: 2025-06-26 14:15:54, Tamanho: 60x60, Iterações: 100, Tempo: 99.63965630531311 s, Modelo: Dados/H-1.csv, Sinal: Dados/G-1.csv
+img_José_1750958157.png - Usuario: José, Algoritmo: cgnr, Inicio: 2025-06-26 14:15:54, Fim: 2025-06-26 14:15:57, Tamanho: 30x30, Iterações: 52, Tempo: 3.189817428588867 s, Modelo: Dados/H-2.csv, Sinal: Dados/A-30x30-1.csv
+img_Carol_1750958161.png - Usuario: Carol, Algoritmo: cgnr, Inicio: 2025-06-26 14:15:57, Fim: 2025-06-26 14:16:01, Tamanho: 30x30, Iterações: 52, Tempo: 3.2008533477783203 s, Modelo: Dados/H-2.csv, Sinal: Dados/A-30x30-1.csv
+img_Carol_1750958168.png - Usuario: Carol, Algoritmo: cgnr, Inicio: 2025-06-26 14:16:01, Fim: 2025-06-26 14:16:08, Tamanho: 30x30, Iterações: 96, Tempo: 6.88150429725647 s, Modelo: Dados/H-2.csv, Sinal: Dados/g-30x30-1.csv
+img_Carol_1750958189.png - Usuario: Carol, Algoritmo: cgnr, Inicio: 2025-06-26 14:14:26, Fim: 2025-06-26 14:16:29, Tamanho: 60x60, Iterações: 100, Tempo: 122.39134883880615 s, Modelo: Dados/H-1.csv, Sinal: Dados/G-1.csv
+img_Carol_1750958211.png - Usuario: Carol, Algoritmo: cgnr, Inicio: 2025-06-26 14:16:08, Fim: 2025-06-26 14:16:51, Tamanho: 60x60, Iterações: 100, Tempo: 43.80578851699829 s, Modelo: Dados/H-1.csv, Sinal: Dados/G-1.csv

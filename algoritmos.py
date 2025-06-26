@@ -105,13 +105,8 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
 #         for l in range(S):
 #             H[c][l] *= 100 + (1/20)*l*np.sqrt(l)
 
-# '''# Chama cgnr
-# f,residuos = cgnr(g, H, 1000)
-
-# # Transforma  f em imagem
-# lado = int(np.sqrt(len(f)))  # tentar fazer quadrada
-# imagem = f[:lado*lado].reshape((lado, lado), order='F')
-
-# # Salvar imagem
-# plt.imsave("teste.png", imagem, cmap='gray')
-# '''
+# Chama cgnr
+'''f,residuos = cgnr(g, H, 1000)# Transforma  f em imagem
+lado = int(np.sqrt(len(f)))  # tentar fazer quadrada
+imagem = f[:lado*lado].reshape((lado, lado), order='F')# Salvar imagem
+plt.imsave("teste.png", imagem, cmap='gray')'''

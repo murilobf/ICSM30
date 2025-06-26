@@ -10,6 +10,7 @@ import random
 import time
 import datetime
 import os
+import threading
 
 USUARIOS = ['Alice', 'José', 'Carol', 'Daniel','Murilo','Maria','Ana','Leonardo','Eduarda','Lucas']
 MODELOS = ['Dados/H-1.csv', 'Dados/H-2.csv']
@@ -36,11 +37,11 @@ def enviar_sinal(usuario):
     }
 
     try:
-        resp = requests.post('http://localhost:5000/reconstruir', json=payload, timeout=30)
+        resp = requests.post('http://localhost:5000/reconstruir', json=payload)
         if resp.status_code == 200:
             # REQUISITO ATENDIDO: Salva imagem reconstruída
             nome_arquivo = f"img_{usuario}_{int(time.time())}.png"
-            with open(nome_arquivo, 'wb') as f:
+            with open(f"Imagens/{nome_arquivo}", 'wb') as f:
                 f.write(resp.content)
 
             # REQUISITO ATENDIDO: Extrai metadados dos headers
@@ -69,7 +70,7 @@ def coletar_desempenho():
     REQUISITO ATENDIDO: Coleta dados de desempenho do servidor
     """
     try:
-        resp = requests.get('http://localhost:5000/desempenho', timeout=10)
+        resp = requests.get('http://localhost:5000/desempenho')
         if resp.status_code == 200:
             dados = resp.json()
             timestamp = dados.get('timestamp', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
@@ -127,16 +128,30 @@ def executar_cliente(num_sinais=5):
     print("- relatorio_desempenho.txt: Relatório de desempenho do servidor")
     print("- img_*.png: Imagens reconstruídas")
 
+#Função para simular vários envios de sinal pelo mesmo cliente
+def funcao_thread_sinal(usuario: str):
+    enviar_sinal(usuario)
+    time.sleep(random.randint(10,10))
+    #coletar_desempenho()
+
+#Função para simular os clientes separados. Para isso usamos threads
+def funcao_thread_cliente():
+    quantidade_sinais = random.randint(1,5)
+
+    usuario = random.choice(USUARIOS)
+
+    for j in range(quantidade_sinais):
+        thread_sinal = threading.Thread(target=funcao_thread_sinal, args=(usuario,))
+        thread_sinal.start()
+
 #Função para simular a criação de vários clientes diferentes, cada um com uma quantidade de sinais pedido diferente
 def simula_clientes():
     quantidade_clientes = random.randint(1,5)
 
     for i in range(quantidade_clientes):
-        quantidade_sinais = random.randint(1,10)
-        usuario = random.choice(USUARIOS)
-
-        for j in range(quantidade_sinais):
-            enviar_sinal(usuario)
+        #Cria uma thread pra cada cliente simulado. O servidor que decide quantos rodam ao mesmo tempo na prática
+        thread_cliente = threading.Thread(target=funcao_thread_cliente)
+        thread_cliente.start()
 
 if __name__ == '__main__':
     executar_cliente(10)

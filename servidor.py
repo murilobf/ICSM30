@@ -21,7 +21,7 @@ app = Flask(__name__)
 #Semáforos para determinar o número máximo de clientes e processos de reconstrução simultâneos
 #Se passar do valor do parâmetro ele bloqueia a thread até estar liberado
 semaforo_clientes = threading.Semaphore(2)
-semaforo_procesos = threading.Semaphore(5)
+semaforo_processos = threading.Semaphore(5)
 
 #Dicionario guardando os modelos já visitados
 modelos = {}
@@ -29,64 +29,78 @@ modelos = {}
 @app.route('/reconstruir', methods=['POST'])
 def reconstruir():
     """
-    REQUISITO ATENDIDO: Recebe dados para reconstrução via POST
-    Processa sinal usando algoritmo CGNR e retorna imagem com metadados
+    REQUISITO ATENDIDO: Fazer o atendimento de vários clientes ao mesmo tempo, qtde determinada por semaforo_clientes
     """
-    data = request.json
-    usuario = data['usuario']  # REQUISITO: Identificação do usuário
-    modelo = data['modelo']
-    sinal = data['sinal']
+    with semaforo_clientes:
+        """
+        REQUISITO ATENDIDO: Recebe dados para reconstrução via POST
+        Processa sinal usando algoritmo CGNR e retorna imagem com metadados
+        """
+        data = request.json
+        usuario = data['usuario']  # REQUISITO: Identificação do usuário
+        modelo = data['modelo']
+        sinal = data['sinal']
 
-    # REQUISITO ATENDIDO: Data e hora do início da reconstrução
-    start_time = time.time()
-    start_dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        # REQUISITO ATENDIDO: Data e hora do início da reconstrução
+        start_time = time.time()
+        start_dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    try:
-        # REQUISITO ATENDIDO: Carrega modelo de acordo com parâmetros recebidos
-        H = np.loadtxt(modelo, delimiter=',', dtype=np.float64)
-        g = np.loadtxt(sinal, delimiter=',', dtype=np.float64)
+        """
+        REQUISITO ATENDIDO: Fazer vários processamentos ao mesmo tempo, qtde determinada por semaforo_processos
+        """
+        with semaforo_processos:
+            try:
+                # REQUISITO ATENDIDO: Carrega modelo de acordo com parâmetros recebidos
+                # Já que demora bastante pra carregar os modelos maiores, salvamos ele na memória do servidor no formato de um dicionário {caminho - Matriz}
+                if modelo in modelos:
+                    H = modelos[modelo]
+                else:
+                    H = np.loadtxt(modelo, delimiter=',', dtype=np.float64)
+                    modelos[modelo] = H
 
-        # REQUISITO ATENDIDO: Executa algoritmo de reconstrução até erro < 1e-4
-        f, iteracoes = algoritmos.cgnr(g, H, 100)
+                g = np.loadtxt(sinal, delimiter=',', dtype=np.float64)
 
-        # Normaliza para 0–255 com tratamento robusto
-        f_min, f_max = f.min(), f.max()
-        if f_max != f_min:
-            f_norm = (f - f_min) / (f_max - f_min) * 255
-        else:
-            f_norm = np.full_like(f, 128)  # Valor médio se todos os pixels são iguais
+                # REQUISITO ATENDIDO: Executa algoritmo de reconstrução até erro < 1e-4
+                f, iteracoes = algoritmos.cgnr(g, H, 100)
 
-        # REQUISITO ATENDIDO: Determina tamanho em pixels
-        lado = int(np.sqrt(len(f)))
-        imagem_array = f_norm[:lado*lado].reshape((lado, lado), order='F')
-        
-        # Garante que os valores estão no range válido para imagem
-        imagem_array = np.clip(imagem_array, 0, 255)
-        imagem = Image.fromarray(imagem_array.astype('uint8'))
+                # Normaliza para 0–255 com tratamento robusto
+                f_min, f_max = f.min(), f.max()
+                if f_max != f_min:
+                    f_norm = (f - f_min) / (f_max - f_min) * 255
+                else:
+                    f_norm = np.full_like(f, 128)  # Valor médio se todos os pixels são iguais
 
-        # Converte imagem para bytes
-        img_bytes = io.BytesIO()
-        imagem.save(img_bytes, format='PNG')
-        img_bytes.seek(0)
+                # REQUISITO ATENDIDO: Determina tamanho em pixels
+                lado = int(np.sqrt(len(f)))
+                imagem_array = f_norm[:lado*lado].reshape((lado, lado), order='F')
+                
+                # Garante que os valores estão no range válido para imagem
+                imagem_array = np.clip(imagem_array, 0, 255)
+                imagem = Image.fromarray(imagem_array.astype('uint8'))
 
-        # REQUISITO ATENDIDO: Data e hora do término da reconstrução
-        end_time = time.time()
-        end_dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                # Converte imagem para bytes
+                img_bytes = io.BytesIO()
+                imagem.save(img_bytes, format='PNG')
+                img_bytes.seek(0)
 
-        # REQUISITO ATENDIDO: Resposta com todos os metadados obrigatórios
-        response = make_response(send_file(img_bytes, mimetype='image/png', download_name='reconstruida.png'))
-        response.headers['X-Usuario'] = usuario  # 1. Identificação do usuário
-        response.headers['X-Algoritmo'] = "cgnr"  # 2. Identificação do algoritmo
-        response.headers['X-Inicio'] = start_dt  # 3. Data/hora início
-        response.headers['X-Fim'] = end_dt  # 4. Data/hora término  
-        response.headers['X-Tamanho'] = f"{lado}x{lado}"  # 5. Tamanho em pixels
-        response.headers['X-Iteracoes'] = str(iteracoes)  # 6. Número de iterações
-        response.headers['X-Tempo'] = str(end_time - start_time)
+                # REQUISITO ATENDIDO: Data e hora do término da reconstrução
+                end_time = time.time()
+                end_dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        return response
+                # REQUISITO ATENDIDO: Resposta com todos os metadados obrigatórios
+                response = make_response(send_file(img_bytes, mimetype='image/png', download_name='reconstruida.png'))
+                response.headers['X-Usuario'] = usuario  # 1. Identificação do usuário
+                response.headers['X-Algoritmo'] = "cgnr"  # 2. Identificação do algoritmo
+                response.headers['X-Inicio'] = start_dt  # 3. Data/hora início
+                response.headers['X-Fim'] = end_dt  # 4. Data/hora término  
+                response.headers['X-Tamanho'] = f"{lado}x{lado}"  # 5. Tamanho em pixels
+                response.headers['X-Iteracoes'] = str(iteracoes)  # 6. Número de iterações
+                response.headers['X-Tempo'] = str(end_time - start_time)
 
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+                return response
+
+            except Exception as e:
+                return jsonify({'error': str(e)}), 500
 
 @app.route('/desempenho', methods=['GET'])
 def desempenho():
