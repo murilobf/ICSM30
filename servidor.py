@@ -61,7 +61,7 @@ def reconstruir():
                 g = np.loadtxt(sinal, delimiter=',', dtype=np.float64)
 
                 # REQUISITO ATENDIDO: Executa algoritmo de reconstrução até erro < 1e-4
-                f, iteracoes = algoritmos.cgnr(g, H, 100)
+                f, iteracoes = algoritmos.cgnr(g, H, 100)  # Unpack all three return values
 
                 # Normaliza para 0–255 com tratamento robusto
                 f_min, f_max = f.min(), f.max()
