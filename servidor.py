@@ -26,6 +26,7 @@ semaforo_processos = threading.Semaphore(5)
 #Dicionario guardando os modelos já visitados
 modelos = {}
 
+
 @app.route('/reconstruir', methods=['POST'])
 def reconstruir():
     """
@@ -63,6 +64,13 @@ def reconstruir():
                 # REQUISITO ATENDIDO: Executa algoritmo de reconstrução até erro < 1e-4
                 f, iteracoes = algoritmos.cgnr(g, H, 100)  # Unpack all three return values
 
+                """
+                REQUISITO ATENDIDO: Monitoramento de desempenho do servidor
+                Retorna informações de CPU e memória
+                """
+                mem = psutil.virtual_memory()
+                cpu = psutil.cpu_percent(interval=1)
+
                 # Normaliza para 0–255 com tratamento robusto
                 f_min, f_max = f.min(), f.max()
                 if f_max != f_min:
@@ -95,26 +103,20 @@ def reconstruir():
                 response.headers['X-Fim'] = end_dt  # 4. Data/hora término  
                 response.headers['X-Tamanho'] = f"{lado}x{lado}"  # 5. Tamanho em pixels
                 response.headers['X-Iteracoes'] = str(iteracoes)  # 6. Número de iterações
-                response.headers['X-Tempo'] = str(end_time - start_time)
+                response.headers['X-Tempo'] = str(end_time - start_time) 
+                response.headers['X-Cpu'] = str(cpu)
+                response.headers['X-Mem'] = str(mem.percent)
 
                 return response
 
             except Exception as e:
                 return jsonify({'error': str(e)}), 500
 
-@app.route('/desempenho', methods=['GET'])
-def desempenho():
-    """
-    REQUISITO ATENDIDO: Endpoint para monitoramento de desempenho do servidor
-    Retorna informações de CPU e memória
-    """
-    mem = psutil.virtual_memory()
-    cpu = psutil.cpu_percent(interval=1)
-    return jsonify({
-        'cpu_percent': cpu,
-        'mem_percent': mem.percent,
-        'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    })
+#endpoint para verificar se o servidor ligou
+@app.route('/ping', methods=["GET"])
+def ping():
+    return 'OK', 200
+
 
 if __name__ == '__main__':
     print("Iniciando servidor de reconstrução de imagens...")

@@ -8,14 +8,13 @@
 import requests
 import random
 import time
-import datetime
-import os
 import threading
 
 USUARIOS = ['Alice', 'José', 'Carol', 'Daniel','Murilo','Maria','Ana','Leonardo','Eduarda','Lucas']
 MODELOS = ['Dados/H-1.csv', 'Dados/H-2.csv']
 SINAIS60 = ['Dados/G-1.csv', 'Dados/G-2.csv', 'Dados/A-60x60-1.csv']
 SINAIS30 = ['Dados/g-30x30-1.csv','Dados/g-30x30-2.csv','Dados/A-30x30-1.csv']
+
 
 def enviar_sinal(usuario):
     
@@ -52,6 +51,9 @@ def enviar_sinal(usuario):
             fim = resp.headers.get('X-Fim', '')
             tamanho = resp.headers.get('X-Tamanho', '')
 
+            uso_cpu = resp.headers.get('X-Cpu','')
+            uso_mem = resp.headers.get('X-Mem','')
+
             # REQUISITO ATENDIDO: Gera relatório com informações da reconstrução
             with open('relatorio_imagens.txt', 'a') as f:
                 f.write(
@@ -60,11 +62,18 @@ def enviar_sinal(usuario):
                     f"Iterações: {iteracoes}, Tempo: {tempo} s, Modelo: {modelo}, Sinal: {sinal}\n"
                 )
             print(f"[SUCESSO] Imagem salva: {nome_arquivo} ({iteracoes} iterações, {tempo}s)")
+
+            with open('relatorio_desempenho.txt', 'a') as f:
+                f.write(
+                    f"[{fim}] CPU: {uso_cpu}%, Memória: {uso_mem}%\n"
+                )
+            print(f"[DESEMPENHO] CPU: {uso_cpu}%, Memória: {uso_mem}%")
         else:
             print(f"[ERRO] Resposta do servidor: {resp.status_code} - {resp.text}")
     except requests.exceptions.RequestException as e:
         print(f"[ERRO] Falha na comunicação com servidor: {e}")
 
+<<<<<<< HEAD
 def coletar_desempenho():
     """
     REQUISITO ATENDIDO: Coleta dados de desempenho do servidor
@@ -126,31 +135,31 @@ def executar_cliente(num_sinais=5):
     print("- relatorio_imagens.txt: Relatório das imagens reconstruídas")
     print("- relatorio_desempenho.txt: Relatório de desempenho do servidor")
     print("- img_*.png: Imagens reconstruídas")
+=======
+>>>>>>> 94bd2dd3898821d4da43f62c05d453e45535c56e
 
 #Função para simular vários envios de sinal pelo mesmo cliente
 def funcao_thread_sinal(usuario: str):
     enviar_sinal(usuario)
-    time.sleep(random.randint(10,10))
-    #coletar_desempenho()
+    
 
 #Função para simular os clientes separados. Para isso usamos threads
 def funcao_thread_cliente():
-    quantidade_sinais = random.randint(1,5)
+    quantidade_sinais = random.randint(2,5)
 
     usuario = random.choice(USUARIOS)
 
     for j in range(quantidade_sinais):
         thread_sinal = threading.Thread(target=funcao_thread_sinal, args=(usuario,))
         thread_sinal.start()
+        time.sleep(random.randint(1,10))
+
 
 #Função para simular a criação de vários clientes diferentes, cada um com uma quantidade de sinais pedido diferente
 def simula_clientes():
-    quantidade_clientes = random.randint(1,5)
+    quantidade_clientes = random.randint(2,5)
 
     for i in range(quantidade_clientes):
         #Cria uma thread pra cada cliente simulado. O servidor que decide quantos rodam ao mesmo tempo na prática
         thread_cliente = threading.Thread(target=funcao_thread_cliente)
         thread_cliente.start()
-
-if __name__ == '__main__':
-    executar_cliente(10)
