@@ -1,3 +1,5 @@
 Dados/
 Imagens/
-pycache/
+__pycache__/
+relatorio_desempenho.txt
+relatorio_imagens.txt

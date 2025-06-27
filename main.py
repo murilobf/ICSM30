@@ -2,7 +2,6 @@
 import cliente
 import servidor
 import time
-import random
 import threading
 from waitress import serve
 
@@ -14,7 +13,7 @@ thread_servidor = threading.Thread(target=iniciar_servidor, daemon=True)
 thread_servidor.start()
 
 # Aguarda um pouco para o servidor iniciar
-time.sleep(5)
+time.sleep(10)
 
 # Envia sinais
 cliente.simula_clientes()

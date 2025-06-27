@@ -26,6 +26,7 @@ semaforo_processos = threading.Semaphore(5)
 #Dicionario guardando os modelos já visitados
 modelos = {}
 
+
 @app.route('/reconstruir', methods=['POST'])
 def reconstruir():
     """
@@ -87,6 +88,13 @@ def reconstruir():
                 end_time = time.time()
                 end_dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+                """
+                REQUISITO ATENDIDO: Monitoramento de desempenho do servidor
+                Retorna informações de CPU e memória
+                """
+                mem = psutil.virtual_memory()
+                cpu = psutil.cpu_percent(interval=1)
+
                 # REQUISITO ATENDIDO: Resposta com todos os metadados obrigatórios
                 response = make_response(send_file(img_bytes, mimetype='image/png', download_name='reconstruida.png'))
                 response.headers['X-Usuario'] = usuario  # 1. Identificação do usuário
@@ -96,25 +104,14 @@ def reconstruir():
                 response.headers['X-Tamanho'] = f"{lado}x{lado}"  # 5. Tamanho em pixels
                 response.headers['X-Iteracoes'] = str(iteracoes)  # 6. Número de iterações
                 response.headers['X-Tempo'] = str(end_time - start_time)
+                response.headers['X-Cpu'] = str(cpu)
+                response.headers['X-Mem'] = str(mem.percent)
 
                 return response
 
             except Exception as e:
                 return jsonify({'error': str(e)}), 500
 
-@app.route('/desempenho', methods=['GET'])
-def desempenho():
-    """
-    REQUISITO ATENDIDO: Endpoint para monitoramento de desempenho do servidor
-    Retorna informações de CPU e memória
-    """
-    mem = psutil.virtual_memory()
-    cpu = psutil.cpu_percent(interval=1)
-    return jsonify({
-        'cpu_percent': cpu,
-        'mem_percent': mem.percent,
-        'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    })
 
 if __name__ == '__main__':
     print("Iniciando servidor de reconstrução de imagens...")
