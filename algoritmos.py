@@ -68,12 +68,6 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
         # Calcula  (||w||²)
         # Usado para calcular o passo ótimo alpha
         w_norm_sq = np.linalg.norm(w, ord=2) ** 2
-        
-        # Verificação de convergência prematura: se ||w||² é muito pequeno,
-        # o algoritmo pode estar em um platô ou ter convergido
-        if w_norm_sq < 1e-15:
-            print(f"Convergência prematura na iteração {i+1}: w_norm muito pequeno")
-            break
             
         # Calcula  (||z||²)
         z_norm_sq = np.linalg.norm(z, ord=2) ** 2
@@ -104,12 +98,6 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
         # Calcula z_next = H^T * r_next para a próxima iteração
         z_next = H_norm.T @ r_next
         z_next_norm_sq = np.linalg.norm(z_next, ord=2) ** 2
-        
-        # Verificação adicional de convergência: se ||z||² é muito pequeno
-        if z_norm_sq < 1e-15:
-            print(f"Convergência prematura na iteração {i+1}: z_norm muito pequeno")
-            f = f_next
-            break
             
         # Calcula o parâmetro beta = ||z_next||²/||z||² para a próxima direção conjugada
         beta = z_next_norm_sq / z_norm_sq
