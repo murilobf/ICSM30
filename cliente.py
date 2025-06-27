@@ -81,7 +81,7 @@ def funcao_thread_sinal(usuario: str):
 
 #Função para simular os clientes separados. Para isso usamos threads
 def funcao_thread_cliente():
-    quantidade_sinais = random.randint(1,5)
+    quantidade_sinais = random.randint(2,5)
 
     usuario = random.choice(USUARIOS)
 
@@ -93,7 +93,7 @@ def funcao_thread_cliente():
 
 #Função para simular a criação de vários clientes diferentes, cada um com uma quantidade de sinais pedido diferente
 def simula_clientes():
-    quantidade_clientes = random.randint(1,5)
+    quantidade_clientes = random.randint(2,5)
 
     for i in range(quantidade_clientes):
         #Cria uma thread pra cada cliente simulado. O servidor que decide quantos rodam ao mesmo tempo na prática
