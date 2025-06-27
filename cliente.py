@@ -73,7 +73,6 @@ def enviar_sinal(usuario):
     except requests.exceptions.RequestException as e:
         print(f"[ERRO] Falha na comunicação com servidor: {e}")
 
-<<<<<<< HEAD
 def coletar_desempenho():
     """
     REQUISITO ATENDIDO: Coleta dados de desempenho do servidor
@@ -135,8 +134,6 @@ def executar_cliente(num_sinais=5):
     print("- relatorio_imagens.txt: Relatório das imagens reconstruídas")
     print("- relatorio_desempenho.txt: Relatório de desempenho do servidor")
     print("- img_*.png: Imagens reconstruídas")
-=======
->>>>>>> 94bd2dd3898821d4da43f62c05d453e45535c56e
 
 #Função para simular vários envios de sinal pelo mesmo cliente
 def funcao_thread_sinal(usuario: str):
