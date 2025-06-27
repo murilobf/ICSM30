@@ -98,7 +98,6 @@ def executar_cliente(num_sinais=5):
         if os.path.exists(arquivo):
             os.remove(arquivo)
     
-    # REQUISITO ATENDIDO: Cabeçalhos dos relatórios
     with open('relatorio_imagens.txt', 'w') as f:
         f.write("=== RELATÓRIO DE IMAGENS RECONSTRUÍDAS ===\n")
         f.write(f"Gerado em: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")

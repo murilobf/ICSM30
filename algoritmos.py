@@ -8,12 +8,6 @@ TOLERANCIA_ERRO = 1e-4
 # frequência com que o progresso da convergência é impresso no console
 LOG_PROGRESSO_ITERACOES = 10
 
-"""
-Algoritmos para reconstrução de imagens de ultrassom baseados em problemas inversos.
-Este módulo implementa o algoritmo CGNR (Conjugate Gradient Normal Residual) 
-para resolver sistemas lineares mal-condicionados Hf = g.
-"""
-
 def cgnr(g: np.array, H: np.array, iter_max: int):
     """
     Implementa o algoritmo CGNR para reconstrução de imagens.
