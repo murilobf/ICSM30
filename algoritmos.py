@@ -65,7 +65,7 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
         # Calcula w = H*p (produto matriz-vetor)
         w = H_norm @ p
         
-        # Calcula o quadrado da norma euclidiana de w (||w||²)
+        # Calcula  (||w||²)
         # Usado para calcular o passo ótimo alpha
         w_norm_sq = np.linalg.norm(w, ord=2) ** 2
         
@@ -75,11 +75,10 @@ def cgnr(g: np.array, H: np.array, iter_max: int):
             print(f"Convergência prematura na iteração {i+1}: w_norm muito pequeno")
             break
             
-        # Calcula o quadrado da norma euclidiana de z (||z||²)
+        # Calcula  (||z||²)
         z_norm_sq = np.linalg.norm(z, ord=2) ** 2
         
         # Calcula o tamanho do passo alpha = ||z||²/||w||²
-        # Este é o passo ótimo na direção p para minimizar o resíduo
         alpha = z_norm_sq / w_norm_sq
         
         # Atualiza a solução: f_next = f + alpha*p
