@@ -12,8 +12,7 @@ import threading
 
 USUARIOS = ['Alice', 'José', 'Carol', 'Daniel','Murilo','Maria','Ana','Leonardo','Eduarda','Lucas']
 MODELOS = ['Dados/H-1.csv', 'Dados/H-2.csv']
-# SINAIS60 = ['Dados/G-1.csv', 'Dados/G-2.csv', 'Dados/A-60x60-1.csv']
-SINAIS60 = ['Dados/A-60x60-1.csv']
+SINAIS60 = ['Dados/G-1.csv', 'Dados/G-2.csv', 'Dados/A-60x60-1.csv']
 SINAIS30 = ['Dados/g-30x30-1.csv','Dados/g-30x30-2.csv','Dados/A-30x30-1.csv']
 
 
